@@ -1,0 +1,38 @@
+<?xml version="1.0" ?> 
+<project name="Ant Example" default="execute">
+    
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+
+	<target name="setup" depends="clean">
+		<mkdir dir="bin" />
+	</target>
+
+	<target name="compile" depends="setup">
+		<javac srcdir="src" destdir="bin" classpath=".\lib\junit4.5.jar:.\lib\junit4.5-src.jar:.\lib\junit-dep-4.5.jar:.\lib\selenium-java-2.42.1.jar:.\lib\selenium-server-standalone-2.42.1.jar" />
+	</target>
+	
+	<target name="run" depends="compile">
+	    <junit printsummary="on">
+	    	<classpath>
+	    		<pathelement location=".\lib\junit4.5.jar"/>
+	    		<pathelement location=".\lib\selenium-java-2.42.1.jar"/>
+	    		<pathelement location=".\lib\selenium-server-standalone-2.42.1.jar"/>
+	    		<pathelement location="bin"/>
+	    	</classpath>
+	      <formatter type="brief" usefile="false" />
+	      <test name="wikia.test.WikiaLoginPageTest" />
+		  <test name="wikia.test.AddVideoPageTest" />
+	    </junit>
+	  </target>
+	
+	<target name="runtest" depends="run">
+		
+	</target>
+
+	<target name="clean">
+		<delete dir="bin/wikia" />
+	</target>
+	
+</project>
