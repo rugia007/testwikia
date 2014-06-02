@@ -1,5 +1,5 @@
 <?xml version="1.0" ?> 
-<project name="Ant Example" default="execute">
+<project name="Ant Example" default="runtest">
     
     <presetdef name="javac">
         <javac includeantruntime="false" />
