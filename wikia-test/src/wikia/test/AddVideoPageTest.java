@@ -26,7 +26,13 @@ public class AddVideoPageTest extends BaseTest{
 		// Create a new instance of the login page class
         // and initialize any WebElement fields in it.
         page = PageFactory.initElements(driver, LoginPage.class);
-        page.enterCredentials(USERNAME, PASSWORD);
+        //I put a try/catch block here instead of throwing an InterruptedException because I don't want
+        //the setUp() signature to change to throw exceptions.
+        try {
+			page.enterCredentials(USERNAME, PASSWORD);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
         Assert.assertTrue("Displaying incorrect username in Account Navigation label",
 				page.getAccountNavigationText().contains(USERNAME));
 	}

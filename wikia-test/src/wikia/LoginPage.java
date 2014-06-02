@@ -1,8 +1,5 @@
 package wikia;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,8 +25,6 @@ public class LoginPage extends BasePage{
 	private WebElement contributeButton;
 	@FindBy(className = "chevron")
 	private WebElement contributeMenu;
-	//@FindBy(xpath = "/html/body/div[2]/section/div[2]/header/div[2]/nav/ul/li[2]/a[@data-id=\"wikiavideoadd\"]")
-	//@FindBy(xpath = "/html/body/div[3]/section/div[2]/header/div[2]/nav/ul/li[2]/a")
 	@FindBy(xpath = "/html/body/div[3]/section/div[2]/header/div[2]/nav/ul/li[2]/a[@data-id='wikiavideoadd']")
 	private WebElement addVideoButton;
 	
@@ -92,14 +87,16 @@ public class LoginPage extends BasePage{
 	 * @param username
 	 * @param password
 	 * @return
+	 * @throws InterruptedException 
 	 */
-	public LoginPage enterCredentials(String username, String password){
+	public LoginPage enterCredentials(String username, String password) throws InterruptedException{
 		hoverOverLoginElement();
-		//Sometimes Chrome gets an invalid login because it is too fast.  I don't have much choice here
+		//Sometimes Chrome gets an invalid login because it is too fast
 		typeUsername(username);
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		//Really don't want to do this, but this is the only way I can get Chrome to consistently pass
+		Thread.sleep(1000);
 		typePassword(password);
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Thread.sleep(1000);
 		return submitLogin();
 	}
 	
