@@ -12,6 +12,10 @@ public class VideoPage extends BasePage {
 		this.driver = driver;
 	}
     
+    /**
+     * Get the header text, which is the File name
+     * @return the file title
+     */
     public String getHeaderText() {
     	return fileTitle.getText();
     }

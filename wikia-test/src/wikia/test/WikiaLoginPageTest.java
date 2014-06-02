@@ -18,7 +18,7 @@ public class WikiaLoginPageTest extends BaseTest {
 		driver.get(HOMEPAGE_URL);
 		// Create a new instance of the login page class
         // and initialize any WebElement fields in it.
-        page = (LoginPage) PageFactory.initElements(driver, LoginPage.class);
+        page = PageFactory.initElements(driver, LoginPage.class);
 	}
 	
 	@After

@@ -1,5 +1,8 @@
 package wikia;
 
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,7 +29,8 @@ public class LoginPage extends BasePage{
 	@FindBy(className = "chevron")
 	private WebElement contributeMenu;
 	//@FindBy(xpath = "/html/body/div[2]/section/div[2]/header/div[2]/nav/ul/li[2]/a[@data-id=\"wikiavideoadd\"]")
-	@FindBy(xpath = "/html/body/div[3]/section/div[2]/header/div[2]/nav/ul/li[2]/a")
+	//@FindBy(xpath = "/html/body/div[3]/section/div[2]/header/div[2]/nav/ul/li[2]/a")
+	@FindBy(xpath = "/html/body/div[3]/section/div[2]/header/div[2]/nav/ul/li[2]/a[@data-id='wikiavideoadd']")
 	private WebElement addVideoButton;
 	
 	public LoginPage(WebDriver driver){
@@ -67,15 +71,19 @@ public class LoginPage extends BasePage{
 	 * Clicks the contribute button to trigger the display of the contribute dropdown
 	 */
 	public void clickContributeButton(){
-		//hoverOverElement(contributeButton);
+		hoverOverElement(contributeButton);
 		contributeButton.click();
 	}
 	
+	/**
+	 * Clicks the "Add a Video" button
+	 * @return AddVideoPage
+	 */
 	public AddVideoPage clickAddVideoButton(){
 		WebDriverWait wdw = new WebDriverWait(driver,100);
 		wdw.until(ExpectedConditions.visibilityOf(addVideoButton));
 		hoverOverElement(addVideoButton);
-		addVideoButton.submit();
+		addVideoButton.click();
 		return PageFactory.initElements(driver, AddVideoPage.class);
 	}
 	
@@ -87,8 +95,11 @@ public class LoginPage extends BasePage{
 	 */
 	public LoginPage enterCredentials(String username, String password){
 		hoverOverLoginElement();
+		//Sometimes Chrome gets an invalid login because it is too fast.  I don't have much choice here
 		typeUsername(username);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		typePassword(password);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		return submitLogin();
 	}
 	
@@ -98,7 +109,7 @@ public class LoginPage extends BasePage{
 	 */
 	public LoginPage submitLogin(){
 		loginButton.submit();
-		return new LoginPage(driver);
+		return PageFactory.initElements(driver, LoginPage.class);
 	}
 	
 	/**

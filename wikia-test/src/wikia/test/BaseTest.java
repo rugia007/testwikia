@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
@@ -29,9 +30,10 @@ public class BaseTest {
 	
 	@Before
 	public void setUp() {
-		String needExe = "";
+		//Apparently Windows machines need a .exe version of chrome driver to work
+		boolean needExe = false;
 		if(SystemUtils.IS_OS_WINDOWS){
-			needExe = ".exe";
+			needExe = true;
 		}
 		
 		if(name.getMethodName().contains("Firefox")){
@@ -42,8 +44,13 @@ public class BaseTest {
 			String path = getClass().getClassLoader().getResource("").getPath();
 			//I want the lib folder where I put my chromedriver
 			path = path+"../lib/";
-			System.setProperty("webdriver.chrome.driver", path+"chromedriver" + needExe);
-        	driver = new ChromeDriver();
+			String chromeDriverPath = path+"chromedriver";
+			if(needExe){
+				chromeDriverPath = chromeDriverPath+".exe";
+			}
+			System.setProperty("webdriver.chrome.driver", path+"chromedriver");
+			ChromeOptions options = new ChromeOptions();
+        	driver = new ChromeDriver(options);
         }
 		//Default to HTMLUnitDriver, even though we don't use it
 		else {

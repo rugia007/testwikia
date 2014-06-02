@@ -25,7 +25,7 @@ public class AddVideoPageTest extends BaseTest{
 		driver.get(HOMEPAGE_URL);
 		// Create a new instance of the login page class
         // and initialize any WebElement fields in it.
-        page = (LoginPage) PageFactory.initElements(driver, LoginPage.class);
+        page = PageFactory.initElements(driver, LoginPage.class);
         page.enterCredentials(USERNAME, PASSWORD);
         Assert.assertTrue("Displaying incorrect username in Account Navigation label",
 				page.getAccountNavigationText().contains(USERNAME));
@@ -50,25 +50,11 @@ public class AddVideoPageTest extends BaseTest{
 		//Navigate to HOMEPAGE
 		driver.get(HOMEPAGE_URL);
 		//Assert we navigated to login page
-		/*Assert.assertEquals("Should have redirected to " + LOGIN_PAGE_URL, LOGIN_PAGE_URL,
-				driver.getCurrentUrl());*/
 		assertRedirect(LOGIN_PAGE_URL);
 		//Left click the “Contribute” button
 		page.clickContributeButton();
 		Assert.assertTrue("Contribute menu dropdown should be displayed", page.isContributeMenuDisplayed());
-		//Left click the "Add Video" button
-		/* Keep getting at org.openqa.selenium.remote.RemoteWebElement.submit(RemoteWebElement.java:83)
-    [junit] 	at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:41)
-    [junit] 	at com.sun.proxy.$Proxy10.submit(Unknown Source)
-    [junit] 	at wikia.LoginPage.clickAddVideoButton(Unknown Source)
-		 * Have tried many different xpaths, both absolute and relative paths, manually creating the xpath,
-		 * etc etc.
-		 * Will redirect directly to the add video page url until I can figure this out
-		 * AWFUL, awful implementation with no IDs...
-		 */
-		//addVideoPage = page.clickAddVideoButton();
-		driver.get(ADD_VIDEO_PAGE_URL); //Bad
-		addVideoPage = PageFactory.initElements(driver, AddVideoPage.class); //Bad
+		addVideoPage = page.clickAddVideoButton();
 		assertRedirect(ADD_VIDEO_PAGE_URL);
 		//Type the youtube URL into the video url input
 		sortVideoPage = addVideoPage.addVideoUrlAndSubmit(YOUTUBE_URL);
